@@ -1,3 +1,4 @@
+import argparse
 from aiohttp import web, ClientSession
 from transform import transform_html, transform_js
 
@@ -32,7 +33,12 @@ async def handle(request):
         )
 
 
+parser = argparse.ArgumentParser(description="aiohttp server example")
+parser.add_argument("--path")
+parser.add_argument("--port")
+
 if __name__ == "__main__":
     app = web.Application()
     app.add_routes([web.get("/{tail:.*}", handle)])
-    web.run_app(app, port=80)
+    args = parser.parse_args()
+    web.run_app(app, path=args.path, port=args.port)
