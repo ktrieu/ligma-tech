@@ -4,12 +4,21 @@ import re
 JS_STRING_REGEX = re.compile(r"\".*\"")
 
 
+def figma_replace(text):
+    text = text.replace(" Figma", " Ligma")
+    text = text.replace("Figma ", "Ligma ")
+    text = text.replace(" Figma ", " Ligma ")
+    # also handle the title
+    text = text.replace("Figma:", "Ligma:")
+    return text
+
+
 def figma_text_replace(soup):
     for text_node in soup.find_all(text=True):
         # apparently doctypes are text too?
         if isinstance(text_node, Doctype):
             continue
-        replaced = text_node.replace("Figma", "Ligma")
+        replaced = figma_replace(text_node)
         text_node.replace_with(replaced)
     return soup
 
@@ -25,4 +34,4 @@ def transform_html(html_text):
 
 
 def transform_js(js_text):
-    return js_text.replace("Figma", "Ligma")
+    return figma_replace(js_text)
