@@ -5,12 +5,7 @@ JS_STRING_REGEX = re.compile(r"\".*\"")
 
 
 def figma_replace(text):
-    text = text.replace(" Figma", " Ligma")
-    text = text.replace("Figma ", "Ligma ")
-    text = text.replace(" Figma ", " Ligma ")
-    # also handle the title
-    text = text.replace("Figma:", "Ligma:")
-    return text
+    return text.replace("Figma", "Ligma")
 
 
 def figma_text_replace(soup):
