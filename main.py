@@ -1,4 +1,5 @@
 import argparse
+import os
 from aiohttp import web, ClientSession
 from transform import transform_html, transform_js
 
@@ -37,8 +38,13 @@ parser = argparse.ArgumentParser(description="aiohttp server example")
 parser.add_argument("--path")
 parser.add_argument("--port")
 
+development_mode = os.environ.get("DEVELOPMENT", None) == "true"
+
 if __name__ == "__main__":
     app = web.Application()
+    if development_mode:
+        print("Development mode enabled.")
+        app.add_routes([web.static("/static-override", "static/")])
     app.add_routes([web.get("/{tail:.*}", handle)])
     args = parser.parse_args()
     web.run_app(app, path=args.path, port=args.port)
