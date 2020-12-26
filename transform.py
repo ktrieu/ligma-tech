@@ -1,7 +1,12 @@
 from bs4 import BeautifulSoup, Doctype
 import re
 
-JS_STRING_REGEX = re.compile(r"\".*\"")
+
+def insert_rewrite_script(soup):
+    head_node = soup.find("head")
+    rewrite_script_tag = soup.new_tag("script", src="/static-override/rewrite.js")
+    head_node.append(rewrite_script_tag)
+    return soup
 
 
 def figma_replace(text):
@@ -18,7 +23,7 @@ def figma_text_replace(soup):
     return soup
 
 
-HTML_FUNCTIONS = [figma_text_replace]
+HTML_FUNCTIONS = [figma_text_replace, insert_rewrite_script]
 
 
 def transform_html(html_text):
