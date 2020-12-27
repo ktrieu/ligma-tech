@@ -1,4 +1,5 @@
-HEADER_LOGO_SELECTOR = 'svg[viewBox=\"0 0 38 57\"]'
+const HEADER_LOGO_SELECTOR = 'svg[viewBox=\"0 0 38 57\"]'
+const HEADER_NEW_LOGO_SRC = '/static-override/ligma.svg'
 
 function replaceHeaderLogo() {
     const headerLogoSvg = document.querySelector(HEADER_LOGO_SELECTOR)
@@ -6,7 +7,7 @@ function replaceHeaderLogo() {
         const newLogo = document.createElement(
             'img',
         )
-        newLogo.src = '/static-override/ligma.svg'
+        newLogo.src = HEADER_NEW_LOGO_SRC
         newLogo.width = 37
         newLogo.height = 67
         headerLogoSvg.replaceWith(newLogo)
@@ -27,13 +28,36 @@ function replaceFooterLogo() {
     }
 }
 
-const observer = new MutationObserver(() => {
-    replaceHeaderLogo()
-    replaceFooterLogo()
-})
+const ICON_SELECTOR = 'link[rel=icon]'
+const APPLE_ICON_SELECTOR = 'link[rel=apple-touch-icon]'
+const SHORTCUT_ICON_SELECTOR = 'link[rel=\"shortcut icon\"]'
 
-observer.observe(document, {
-    childList: true,
-    attributes: true,
-    subtree: true
-})
+function removeBySelector(selector) {
+    const nodes = document.querySelectorAll(selector)
+    nodes.forEach((e) => { e.parentNode.removeChild(e) })
+}
+
+function replaceFavicon() {
+    removeBySelector(ICON_SELECTOR)
+    removeBySelector(APPLE_ICON_SELECTOR)
+    removeBySelector(SHORTCUT_ICON_SELECTOR)
+    const newLink = document.createElement('link')
+    newLink.rel = 'icon'
+    newLink.type = 'image/svg+xml'
+    newLink.href = HEADER_NEW_LOGO_SRC
+    document.querySelector('head').appendChild(newLink)
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const observer = new MutationObserver(() => {
+        replaceHeaderLogo()
+        replaceFooterLogo()
+        replaceFavicon()
+    })
+    
+    observer.observe(document.body, {
+        childList: true,
+        attributes: true,
+        subtree: true
+    })
+  });
