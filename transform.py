@@ -23,7 +23,15 @@ def figma_text_replace(soup):
     return soup
 
 
-HTML_FUNCTIONS = [figma_text_replace, insert_rewrite_script]
+def replace_meta_tags(soup):
+    for meta_node in soup.find_all("meta"):
+        if "content" in meta_node.attrs:
+            print(meta_node)
+            meta_node["content"] = figma_replace(meta_node["content"])
+    return soup
+
+
+HTML_FUNCTIONS = [figma_text_replace, insert_rewrite_script, replace_meta_tags]
 
 
 def transform_html(html_text):
