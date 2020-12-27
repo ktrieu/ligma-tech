@@ -1,5 +1,5 @@
 function replaceHeaderLogo() {
-    const headerLogoSvg = document.querySelector('a[aria-current=page] > svg')
+    const headerLogoSvg = document.querySelector('svg[viewBox="0 0 38 57"]')
     if (headerLogoSvg) {
         const newLogo = document.createElement(
             'img',
@@ -12,7 +12,7 @@ function replaceHeaderLogo() {
 }
 
 function replaceFooterLogo() {
-    const footerLogoImg = document.querySelector('a[aria-current=page] > img[alt=Figma]')
+    const footerLogoImg = document.querySelector('img[alt=Ligma]')
     if (footerLogoImg) {
         const newLogo = document.createElement('img')
         newLogo.src = '/static-override/ligma_text.svg'
