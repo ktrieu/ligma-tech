@@ -26,7 +26,6 @@ def figma_text_replace(soup):
 def replace_meta_tags(soup):
     for meta_node in soup.find_all("meta"):
         if "content" in meta_node.attrs:
-            print(meta_node)
             meta_node["content"] = figma_replace(meta_node["content"])
     return soup
 
